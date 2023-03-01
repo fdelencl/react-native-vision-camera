@@ -11,6 +11,9 @@ import type { Point } from './Point';
 import type { TakeSnapshotOptions } from './Snapshot';
 import type { CameraVideoCodec, RecordVideoOptions, VideoFile } from './VideoFile';
 
+const isFabricEnabled = global.nativeFabricUIManager != null;
+console.log('isFabricEnabled', isFabricEnabled)
+
 //#region Types
 export type CameraPermissionStatus = 'authorized' | 'not-determined' | 'denied' | 'restricted';
 export type CameraPermissionRequestResult = 'authorized' | 'denied';
@@ -29,6 +32,8 @@ type NativeCameraViewProps = Omit<CameraProps, 'device' | 'onInitialized' | 'onE
 };
 type RefType = React.Component<NativeCameraViewProps> & Readonly<NativeMethods>;
 //#endregion
+
+console.log('isFabricEnabled', isFabricEnabled)
 
 // NativeModules automatically resolves 'CameraView' to 'CameraViewModule'
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
