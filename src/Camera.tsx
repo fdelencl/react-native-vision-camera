@@ -87,6 +87,7 @@ export class Camera extends React.PureComponent<CameraProps> {
     this.onInitialized = this.onInitialized.bind(this);
     this.onError = this.onError.bind(this);
     this.ref = React.createRef<RefType>();
+    console.log('refrefref', this.ref)
     this.lastFrameProcessor = undefined;
   }
 

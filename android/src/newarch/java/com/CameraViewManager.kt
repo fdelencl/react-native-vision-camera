@@ -170,7 +170,7 @@ class CameraViewManager(reactContext: ReactApplicationContext) : ViewGroupManage
 
   companion object {
     const val NAME = "CameraView"
-
+    const val TAG = "CameraView"
 
     val cameraViewTransactions: HashMap<CameraView, ArrayList<String>> = HashMap()
 

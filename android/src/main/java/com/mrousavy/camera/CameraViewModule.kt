@@ -45,7 +45,7 @@ class CameraViewModule(reactContext: ReactApplicationContext) : ReactContextBase
   }
 
   var frameProcessorThread: ExecutorService = Executors.newSingleThreadExecutor()
-  private val coroutineScope = CoroutineScope(Dispatchers.Default) // TODO: or Dispatchers.Main?
+  private val coroutineScope = CoroutineScope(Dispatchers.Main) // TODO: or Dispatchers.Main?
   private var frameProcessorManager: FrameProcessorRuntimeManager? = null
 
   private fun cleanup() {
@@ -69,8 +69,9 @@ class CameraViewModule(reactContext: ReactApplicationContext) : ReactContextBase
   }
 
   private fun findCameraView(viewId: Int): CameraView {
+    if (reactApplicationContext != null) Log.d(TAG, "reactApplicationContext exists")
     Log.d(TAG, "Finding view $viewId...")
-    val view = if (reactApplicationContext != null) UIManagerHelper.getUIManager(reactApplicationContext, viewId)?.resolveView(viewId) as CameraView? else null
+    val view = if (reactApplicationContext != null) UIManagerHelper.getUIManagerForReactTag(reactApplicationContext, viewId)?.resolveView(viewId) as CameraView? else null
     Log.d(TAG,  if (reactApplicationContext != null) "Found view $viewId!" else "Couldn't find view $viewId!")
     return view ?: throw ViewNotFoundError(viewId)
   }
