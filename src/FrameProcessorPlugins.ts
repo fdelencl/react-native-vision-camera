@@ -97,7 +97,6 @@ const runOnAsyncContext = Worklets.createRunInContextFn((frame: Frame, func: () 
  */
 export function runAsync(frame: Frame, func: () => void): void {
   'worklet';
-
   if (isAsyncContextBusy.value) {
     // async context is currently busy, we cannot schedule new work in time.
     // drop this frame/runAsync call.
