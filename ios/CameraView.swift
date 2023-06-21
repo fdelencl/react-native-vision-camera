@@ -1,5 +1,5 @@
 //
-//  CameraView.swift
+//  CameraViewSwf.swift
 //  mrousavy
 //
 //  Created by Marc Rousavy on 09.11.20.
@@ -9,14 +9,15 @@
 import AVFoundation
 import Foundation
 import UIKit
+import React
 
 //
-// TODOs for the CameraView which are currently too hard to implement either because of AVFoundation's limitations, or my brain capacity
+// TODOs for the CameraViewSwf which are currently too hard to implement either because of AVFoundation's limitations, or my brain capacity
 //
-// CameraView+RecordVideo
+// CameraViewSwf+RecordVideo
 // TODO: Better startRecording()/stopRecording() (promise + callback, wait for TurboModules/JSI)
 
-// CameraView+TakePhoto
+// CameraViewSwf+TakePhoto
 // TODO: Photo HDR
 
 private let propsThatRequireReconfiguration = ["cameraId",
@@ -33,9 +34,9 @@ private let propsThatRequireDeviceReconfiguration = ["fps",
                                                      "lowLightBoost",
                                                      "colorSpace"]
 
-// MARK: - CameraView
+// MARK: - CameraViewSwf
 
-public final class CameraView: UIView {
+public final class CameraViewSwf: UIView {
   // pragma MARK: React Properties
 
   // pragma MARK: Exported Properties
@@ -63,7 +64,7 @@ public final class CameraView: UIView {
   @objc var zoom: NSNumber = 1.0 // in "factor"
   @objc var enableFpsGraph = false
   @objc var videoStabilizationMode: NSString?
-  @objc var previewType: NSString?
+  // @objc var previewType: NSString?
   // events
   @objc var onInitialized: RCTDirectEventBlock?
   @objc var onError: RCTDirectEventBlock?
@@ -91,13 +92,13 @@ public final class CameraView: UIView {
   internal var photoOutput: AVCapturePhotoOutput?
   internal var videoOutput: AVCaptureVideoDataOutput?
   internal var audioOutput: AVCaptureAudioDataOutput?
-  // CameraView+RecordView (+ FrameProcessorDelegate.mm)
+  // CameraViewSwf+RecordView (+ FrameProcessorDelegate.mm)
   internal var isRecording = false
   internal var recordingSession: RecordingSession?
-  @objc public var frameProcessorCallback: FrameProcessorCallback?
-  // CameraView+TakePhoto
+  // @objc public var frameProcessorCallback: FrameProcessorCallback?
+  // CameraViewSwf+TakePhoto
   internal var photoCaptureDelegates: [PhotoCaptureDelegate] = []
-  // CameraView+Zoom
+  // CameraViewSwf+Zoom
   internal var pinchGestureRecognizer: UIPinchGestureRecognizer?
   internal var pinchScaleOffset: CGFloat = 1.0
 
@@ -127,10 +128,10 @@ public final class CameraView: UIView {
                                            selector: #selector(sessionRuntimeError),
                                            name: .AVCaptureSessionRuntimeError,
                                            object: audioCaptureSession)
-    NotificationCenter.default.addObserver(self,
-                                           selector: #selector(audioSessionInterrupted),
-                                           name: AVAudioSession.interruptionNotification,
-                                           object: AVAudioSession.sharedInstance)
+//    NotificationCenter.default.addObserver(self,
+//                                           selector: #selector(audioSessionInterrupted),
+//                                           name: AVAudioSession.interruptionNotification,
+//                                           object: AVAudioSession.sharedInstance)
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(onOrientationChanged),
                                            name: UIDevice.orientationDidChangeNotification,
@@ -181,17 +182,10 @@ public final class CameraView: UIView {
   }
 
   func setupPreviewView() {
-    if previewType == "skia" {
-      // Skia Preview View allows user to draw onto a Frame in a Frame Processor
-      if previewView is PreviewSkiaView { return }
-      previewView?.removeFromSuperview()
-      previewView = PreviewSkiaView(frame: frame)
-    } else {
-      // Normal iOS PreviewView is lighter and more performant (YUV Format, GPU only)
-      if previewView is PreviewView { return }
-      previewView?.removeFromSuperview()
-      previewView = PreviewView(frame: frame, session: captureSession)
-    }
+    // Normal iOS PreviewView is lighter and more performant (YUV Format, GPU only)
+    if previewView is PreviewView { return }
+    previewView?.removeFromSuperview()
+    previewView = PreviewView(frame: frame, session: captureSession)
 
     addSubview(previewView!)
   }
@@ -292,11 +286,11 @@ public final class CameraView: UIView {
       }
 
       // Audio Configuration
-      if shouldReconfigureAudioSession {
-        audioQueue.async {
-          self.configureAudioSession()
-        }
-      }
+//      if shouldReconfigureAudioSession {
+//        audioQueue.async {
+//          self.configureAudioSession()
+//        }
+//      }
     }
   }
 
@@ -339,8 +333,7 @@ public final class CameraView: UIView {
     }
   }
 
-  @objc
-  func onOrientationChanged() {
+  @objc func onOrientationChanged() {
     updateOrientation()
   }
 

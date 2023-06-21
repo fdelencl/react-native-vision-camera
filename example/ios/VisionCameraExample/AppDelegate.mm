@@ -2,7 +2,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import "VisionCameraExample-Swift.h"
-#import <VisionCamera/FrameProcessorPlugin.h>
+// #import <VisionCamera/FrameProcessorPlugin.h>
 
 @implementation AppDelegate
 
@@ -13,7 +13,7 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   
-  [FrameProcessorPlugin registerPlugin:[[ExamplePluginSwift alloc] init]];
+  // [FrameProcessorPlugin registerPlugin:[[ExamplePluginSwift alloc] init]];
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }

@@ -10,6 +10,10 @@ import type { PhotoFile, TakePhotoOptions } from './PhotoFile';
 import type { Point } from './Point';
 import type { TakeSnapshotOptions } from './Snapshot';
 import type { CameraVideoCodec, RecordVideoOptions, VideoFile } from './VideoFile';
+import CameraView from 'CameraViewNativeComponent';
+
+console.log(CameraView)
+
 
 const isFabricEnabled = global.nativeFabricUIManager != null;
 
@@ -34,7 +38,7 @@ type RefType = React.Component<NativeCameraViewProps> & Readonly<NativeMethods>;
 
 // NativeModules automatically resolves 'CameraView' to 'CameraViewModule'
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const CameraModule = NativeModules.CameraView;
+const CameraModule = CameraView;
 if (CameraModule == null) console.error("Camera: Native Module 'CameraView' was null! Did you run pod install?");
 
 //#region Camera Component
@@ -478,7 +482,8 @@ export class Camera extends React.PureComponent<CameraProps> {
         'Camera: `device` is null! Select a valid Camera device. See: https://mrousavy.com/react-native-vision-camera/docs/guides/devices',
       );
     }
-
+    console.log('SHIIT ')
+    console.log(typeof NativeCameraView)
     return (
       <NativeCameraView
         {...props}

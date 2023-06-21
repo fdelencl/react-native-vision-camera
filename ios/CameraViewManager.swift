@@ -9,11 +9,11 @@
 import AVFoundation
 import Foundation
 
-@objc(CameraViewManager)
-final class CameraViewManager: RCTViewManager {
+@objc(notCameraViewManager)
+final class notCameraViewManager: RCTViewManager {
   // pragma MARK: Properties
 
-  private var runtimeManager: FrameProcessorRuntimeManager?
+  // private var runtimeManager: FrameProcessorRuntimeManager?
 
   override var methodQueue: DispatchQueue! {
     return DispatchQueue.main
@@ -23,43 +23,43 @@ final class CameraViewManager: RCTViewManager {
     return true
   }
 
-  override final func view() -> UIView! {
-    return CameraView()
+  override final func view() -> CameraViewSwf! {
+    return CameraViewSwf()
   }
 
   // pragma MARK: React Functions
 
   @objc
   final func installFrameProcessorBindings() -> NSNumber {
-    // Runs on JS Thread
-    runtimeManager = FrameProcessorRuntimeManager()
-    runtimeManager!.installFrameProcessorBindings()
+    // // Runs on JS Thread
+    // runtimeManager = FrameProcessorRuntimeManager()
+    // runtimeManager!.installFrameProcessorBindings()
     return true as NSNumber
   }
 
-  @objc
-  final func startRecording(_ node: NSNumber, options: NSDictionary, onRecordCallback: @escaping RCTResponseSenderBlock) {
-    let component = getCameraView(withTag: node)
-    component.startRecording(options: options, callback: onRecordCallback)
-  }
+  // @objc
+  // final func startRecording(_ node: NSNumber, options: NSDictionary, onRecordCallback: @escaping RCTResponseSenderBlock) {
+  //   let component = getCameraView(withTag: node)
+  //   component.startRecording(options: options, callback: onRecordCallback)
+  // }
 
-  @objc
-  final func pauseRecording(_ node: NSNumber, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-    let component = getCameraView(withTag: node)
-    component.pauseRecording(promise: Promise(resolver: resolve, rejecter: reject))
-  }
+  // @objc
+  // final func pauseRecording(_ node: NSNumber, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+  //   let component = getCameraView(withTag: node)
+  //   component.pauseRecording(promise: Promise(resolver: resolve, rejecter: reject))
+  // }
 
-  @objc
-  final func resumeRecording(_ node: NSNumber, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-    let component = getCameraView(withTag: node)
-    component.resumeRecording(promise: Promise(resolver: resolve, rejecter: reject))
-  }
+  // @objc
+  // final func resumeRecording(_ node: NSNumber, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+  //   let component = getCameraView(withTag: node)
+  //   component.resumeRecording(promise: Promise(resolver: resolve, rejecter: reject))
+  // }
 
-  @objc
-  final func stopRecording(_ node: NSNumber, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-    let component = getCameraView(withTag: node)
-    component.stopRecording(promise: Promise(resolver: resolve, rejecter: reject))
-  }
+  // @objc
+  // final func stopRecording(_ node: NSNumber, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+  //   let component = getCameraView(withTag: node)
+  //   component.stopRecording(promise: Promise(resolver: resolve, rejecter: reject))
+  // }
 
   @objc
   final func takePhoto(_ node: NSNumber, options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
@@ -168,9 +168,9 @@ final class CameraViewManager: RCTViewManager {
 
   // MARK: Private
 
-  private func getCameraView(withTag tag: NSNumber) -> CameraView {
+  private func getCameraView(withTag tag: NSNumber) -> CameraViewSwf {
     // swiftlint:disable force_cast
-    return bridge.uiManager.view(forReactTag: tag) as! CameraView
+    return bridge.uiManager.view(forReactTag: tag) as! CameraViewSwf
   }
 
   private final func getAllDeviceTypes() -> [AVCaptureDevice.DeviceType] {

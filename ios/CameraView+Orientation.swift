@@ -1,5 +1,5 @@
 //
-//  CameraView+Orientation.swift
+//  CameraViewSwf+Orientation.swift
 //  VisionCamera
 //
 //  Created by Marc Rousavy on 04.01.22.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension CameraView {
+extension CameraViewSwf {
   /// Orientation of the input connection (preview)
   private var inputOrientation: UIInterfaceOrientation {
     return .portrait

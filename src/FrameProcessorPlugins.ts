@@ -3,7 +3,7 @@ import { Camera } from './Camera';
 import { Worklets } from 'react-native-worklets/src';
 
 // Install VisionCamera Frame Processor JSI Bindings and Plugins
-Camera.installFrameProcessorBindings();
+// Camera.installFrameProcessorBindings();
 
 type BasicParameterType = string | number | boolean | undefined;
 type ParameterType = BasicParameterType | BasicParameterType[] | Record<string, BasicParameterType | undefined>;

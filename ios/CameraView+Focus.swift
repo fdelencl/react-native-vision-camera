@@ -1,5 +1,5 @@
 //
-//  CameraView+focus.swift
+//  CameraViewSwf+focus.swift
 //  mrousavy
 //
 //  Created by Marc Rousavy on 19.02.21.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension CameraView {
+extension CameraViewSwf {
   private func rotateFrameSize(frameSize: CGSize, orientation: UIInterfaceOrientation) -> CGSize {
     switch orientation {
     case .portrait, .portraitUpsideDown, .unknown:

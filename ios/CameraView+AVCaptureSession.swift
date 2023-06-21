@@ -1,5 +1,5 @@
 //
-//  CameraView+AVCaptureSession.swift
+//  CameraViewSwf+AVCaptureSession.swift
 //  VisionCamera
 //
 //  Created by Marc Rousavy on 26.03.21.
@@ -10,9 +10,9 @@ import AVFoundation
 import Foundation
 
 /**
- Extension for CameraView that sets up the AVCaptureSession, Device and Format.
+ Extension for CameraViewSwf that sets up the AVCaptureSession, Device and Format.
  */
-extension CameraView {
+extension CameraViewSwf {
   // pragma MARK: Configure Capture Session
 
   /**
@@ -61,28 +61,28 @@ extension CameraView {
       }
     }
 
-    // pragma MARK: Capture Session Inputs
-    // Video Input
-    do {
-      if let videoDeviceInput = videoDeviceInput {
-        captureSession.removeInput(videoDeviceInput)
-        self.videoDeviceInput = nil
-      }
-      ReactLogger.log(level: .info, message: "Adding Video input...")
-      guard let videoDevice = AVCaptureDevice(uniqueID: cameraId) else {
-        invokeOnError(.device(.invalid))
-        return
-      }
-      videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
-      guard captureSession.canAddInput(videoDeviceInput!) else {
-        invokeOnError(.parameter(.unsupportedInput(inputDescriptor: "video-input")))
-        return
-      }
-      captureSession.addInput(videoDeviceInput!)
-    } catch {
-      invokeOnError(.device(.invalid))
-      return
-    }
+    // // pragma MARK: Capture Session Inputs
+    // // Video Input
+    // do {
+    //   if let videoDeviceInput = videoDeviceInput {
+    //     captureSession.removeInput(videoDeviceInput)
+    //     self.videoDeviceInput = nil
+    //   }
+    //   ReactLogger.log(level: .info, message: "Adding Video input...")
+    //   guard let videoDevice = AVCaptureDevice(uniqueID: cameraId) else {
+    //     invokeOnError(.device(.invalid))
+    //     return
+    //   }
+    //   videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+    //   guard captureSession.canAddInput(videoDeviceInput!) else {
+    //     invokeOnError(.parameter(.unsupportedInput(inputDescriptor: "video-input")))
+    //     return
+    //   }
+    //   captureSession.addInput(videoDeviceInput!)
+    // } catch {
+    //   invokeOnError(.device(.invalid))
+    //   return
+    // }
 
     // pragma MARK: Capture Session Outputs
 
@@ -121,30 +121,30 @@ extension CameraView {
     }
 
     // Video Output + Frame Processor
-    if let videoOutput = videoOutput {
-      captureSession.removeOutput(videoOutput)
-      self.videoOutput = nil
-    }
-    if video?.boolValue == true || enableFrameProcessor {
-      ReactLogger.log(level: .info, message: "Adding Video Data output...")
-      videoOutput = AVCaptureVideoDataOutput()
-      guard captureSession.canAddOutput(videoOutput!) else {
-        invokeOnError(.parameter(.unsupportedOutput(outputDescriptor: "video-output")))
-        return
-      }
-      videoOutput!.setSampleBufferDelegate(self, queue: videoQueue)
-      videoOutput!.alwaysDiscardsLateVideoFrames = false
+    // if let videoOutput = videoOutput {
+    //   captureSession.removeOutput(videoOutput)
+    //   self.videoOutput = nil
+    // }
+    // if video?.boolValue == true || enableFrameProcessor {
+    //   ReactLogger.log(level: .info, message: "Adding Video Data output...")
+    //   videoOutput = AVCaptureVideoDataOutput()
+    //   guard captureSession.canAddOutput(videoOutput!) else {
+    //     invokeOnError(.parameter(.unsupportedOutput(outputDescriptor: "video-output")))
+    //     return
+    //   }
+    //   videoOutput!.setSampleBufferDelegate(self, queue: videoQueue)
+    //   videoOutput!.alwaysDiscardsLateVideoFrames = false
 
-      if previewType == "skia" {
-        // If the PreviewView is a Skia view, we need to use the RGB format since Skia works in the RGB colorspace instead of YUV.
-        // This does introduce a performance overhead, but it's inevitable since Skia would internally convert
-        // YUV frames to RGB anyways since all Shaders and draw operations operate in the RGB space.
-        videoOutput!.videoSettings = [
-          String(kCVPixelBufferPixelFormatTypeKey): kCVPixelFormatType_32BGRA, // default: kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
-        ]
-      }
-      captureSession.addOutput(videoOutput!)
-    }
+      // if previewType == "skia" {
+      //   // If the PreviewView is a Skia view, we need to use the RGB format since Skia works in the RGB colorspace instead of YUV.
+      //   // This does introduce a performance overhead, but it's inevitable since Skia would internally convert
+      //   // YUV frames to RGB anyways since all Shaders and draw operations operate in the RGB space.
+      //   videoOutput!.videoSettings = [
+      //     String(kCVPixelBufferPixelFormatTypeKey): kCVPixelFormatType_32BGRA, // default: kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
+      //   ]
+      // }
+      // captureSession.addOutput(videoOutput!)
+    // }
 
     onOrientationChanged()
 

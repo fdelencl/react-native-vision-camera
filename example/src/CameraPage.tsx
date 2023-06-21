@@ -25,7 +25,6 @@ import { examplePlugin } from './frame-processors/ExamplePlugin';
 import type { Routes } from './Routes';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useIsFocused } from '@react-navigation/core';
-import { Skia } from '@shopify/react-native-skia';
 import { FACE_SHADER } from './Shaders';
 
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
@@ -206,30 +205,6 @@ export function CameraPage({ navigation }: Props): React.ReactElement {
   const centerX = x + width / 2;
   const centerY = y + height / 2;
 
-  const runtimeEffect = Skia.RuntimeEffect.Make(FACE_SHADER);
-  if (runtimeEffect == null) throw new Error('Shader failed to compile!');
-  const shaderBuilder = Skia.RuntimeShaderBuilder(runtimeEffect);
-  shaderBuilder.setUniform('r', [width]);
-  shaderBuilder.setUniform('x', [centerX]);
-  shaderBuilder.setUniform('y', [centerY]);
-  shaderBuilder.setUniform('resolution', [1920, 1080]);
-  const imageFilter = Skia.ImageFilter.MakeRuntimeShader(shaderBuilder, null, null);
-
-  const paint = Skia.Paint();
-  paint.setImageFilter(imageFilter);
-
-  const isIOS = Platform.OS === 'ios';
-  const frameProcessor = useFrameProcessor(
-    (frame) => {
-      'worklet';
-      console.log(`Width: ${frame.width}`);
-
-      if (isIOS) frame.render(paint);
-      else console.log('Drawing to the Frame is not yet available on Android. WIP PR');
-    },
-    [isIOS, paint],
-  );
-
   return (
     <View style={styles.container}>
       {device != null && (
@@ -253,7 +228,7 @@ export function CameraPage({ navigation }: Props): React.ReactElement {
                 video={true}
                 audio={hasMicrophonePermission}
                 enableFpsGraph={true}
-                previewType="skia"
+                previewType="native"
                 frameProcessor={device.supportsParallelVideoProcessing ? frameProcessor : undefined}
                 orientation="portrait"
               />

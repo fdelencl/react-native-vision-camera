@@ -14,9 +14,6 @@
 #import <React/RCTUIManager.h>
 #import <React/RCTFPSGraph.h>
 
-#import "FrameProcessorCallback.h"
-#import "FrameProcessorRuntimeManager.h"
-#import "Frame.h"
 #import "RCTBridge+runOnJS.h"
 #import "JSConsoleHelper.h"
 
