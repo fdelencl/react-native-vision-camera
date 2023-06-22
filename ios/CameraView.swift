@@ -9,6 +9,7 @@
 import AVFoundation
 import Foundation
 import UIKit
+import RCTFabric
 
 //
 // TODOs for the CameraView which are currently too hard to implement either because of AVFoundation's limitations, or my brain capacity
@@ -34,7 +35,7 @@ private let propsThatRequireDeviceReconfiguration = ["fps",
 
 // MARK: - CameraView
 
-public final class CameraView: UIView {
+public final class CameraView: RCTViewComponentView {
   // pragma MARK: React Properties
 
   // pragma MARK: Exported Properties
@@ -357,4 +358,8 @@ public final class CameraView: UIView {
     ])
     lastSuggestedFrameProcessorFps = suggestedFps
   }
+}
+
+public func CameraViewCls() => Class<RCTComponentViewProtocol> {
+  return CameraView.class;
 }

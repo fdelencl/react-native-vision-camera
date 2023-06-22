@@ -28,13 +28,15 @@ Pod::Spec.new do |s|
 
   s.pod_target_xcconfig = {
     "USE_HEADERMAP" => "YES",
-    "HEADER_SEARCH_PATHS" => "\"$(PODS_TARGET_SRCROOT)/ReactCommon\" \"$(PODS_TARGET_SRCROOT)\" \"$(PODS_ROOT)/RCT-Folly\" \"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/boost-for-react-native\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/Headers/Private/React-Core\" "
+    "HEADER_SEARCH_PATHS" => "\"$(PODS_TARGET_SRCROOT)/ReactCommon\" \"$(PODS_TARGET_SRCROOT)\" \"$(PODS_ROOT)/RCT-Folly\" \"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/boost-for-react-native\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/Headers/Private/React-Core\" ",
+    "OTHER_CPLUSPLUSFLAGS" => "$(inherited) -DRCT_NEW_ARCH_ENABLED=1 -DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -lstdc\+\+",
+    "OTHER_LDFLAGS" => "-lstdc\+\+"
   }
   s.compiler_flags = folly_compiler_flags + ' ' + boost_compiler_flags
   s.xcconfig = {
     "CLANG_CXX_LANGUAGE_STANDARD" => "c++17",
     "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/boost-for-react-native\" \"$(PODS_ROOT)/glog\" \"$(PODS_ROOT)/RCT-Folly\" \"${PODS_ROOT}/Headers/Public/React-hermes\" \"${PODS_ROOT}/Headers/Public/hermes-engine\"",
-    "OTHER_CFLAGS" => "$(inherited)" + " " + folly_flags
+    "OTHER_CFLAGS" => "$(inherited)" + " -lstdc\+\+ " + folly_flags
   }
 
   s.requires_arc = true
@@ -42,8 +44,9 @@ Pod::Spec.new do |s|
   # All source files that should be publicly visible
   # Note how this does not include headers, since those can nameclash.
   s.source_files = [
-    "ios/**/*.{m,mm,swift}",
+    "ios/**/*.{m,hpp,mm,swift}",
     "ios/CameraBridge.h",
+    "ios/RCTViewComponentView.hpp",
     "ios/Frame Processor/Frame.h",
     "ios/Frame Processor/FrameProcessorCallback.h",
     "ios/Frame Processor/FrameProcessorRuntimeManager.h",
@@ -64,4 +67,13 @@ Pod::Spec.new do |s|
   s.dependency "React-callinvoker"
   s.dependency "React"
   s.dependency "React-Core"
+  s.dependency "RCT-Folly"
+  s.dependency "React-RCTFabric" # This is for Fabric Component
+  s.dependency "React-Codegen"
+  s.dependency "RCTRequired"
+  s.dependency "RCTTypeSafety"
+  s.dependency "ReactCommon/turbomodule/bridging"
+  s.dependency "ReactCommon/turbomodule/core"
+
+  # install_modules_dependencies(s)
 end

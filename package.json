@@ -159,5 +159,13 @@
         }
       ]
     ]
+  },
+  "codegenConfig": {
+    "name": "VisionCamera",
+    "type": "all",
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.mrousavy.camera"
+    }
   }
 }

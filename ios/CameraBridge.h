@@ -12,6 +12,15 @@
 
 #import <React/RCTViewManager.h>
 #import <React/RCTUIManager.h>
+#ifdef __cplusplus
+
+#import "RCTViewComponentView.hpp"
+#import <react/renderer/components/VisionCamera/ComponentDescriptors.h>
+#import <react/renderer/components/VisionCamera/EventEmitters.h>
+#import <react/renderer/components/VisionCamera/Props.h>
+#import <react/renderer/components/VisionCamera/RCTComponentViewHelpers.h>
+
+#endif
 
 #import "FrameProcessorCallback.h"
 #import "FrameProcessorRuntimeManager.h"
